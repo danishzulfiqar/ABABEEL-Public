@@ -1,0 +1,398 @@
+<!-- Author: Danish Zulfiqar -->
+<!--  Last updated: 27/7/23 -->
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jquer -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Bootstrap Links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Font Awsome -->
+    <script src="https://kit.fontawesome.com/461ad1934b.js" crossorigin="anonymous"></script>
+
+    <!-- Firebase Links-->
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="../Css/user.css">
+
+    <title>Dashboard | Ababeel</title>
+</head>
+
+<body>
+
+    <!-- Section Dashboards Start -->
+
+    <section class="Dashboard-Home-Section ">
+
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top border-bottom">
+
+            <div class="container">
+
+                <h1><a class="navbar-brand fst-italic" id="nav-logo" href="#"> <i
+                            class="fa-brands fa-phoenix-squadron text-danger"></i>
+                        A<span class="">b</span>a<span class="">b</span><span class="">ee</span>l</a></h1>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dark-mode-btn" id="togglerForDark">
+                            <div>
+                                <input type="checkbox" class="checkbox" id="checkbox">
+                                <label for="checkbox" class="checkbox-label">
+                                    <i class="fas fa-moon"></i>
+                                    <i class="fas fa-sun"></i>
+                                    <span class="ball"></span>
+                                </label>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://fambzzhh.com" target="_blank ">Help</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle text-muted" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-user text-primary"></i>
+                                </a>
+                                <ul class="dropdown-menu drop-nav">
+                                    <li class="">
+                                        <a href="#" class="nav-link "><i class="fa-solid fa-gear pe-1"></i> Settings</a>
+                                    </li>
+                                    <li class="" onclick="signout()">
+                                        <span class="nav-link "> <i
+                                                class="fa-solid fa-arrow-right-from-bracket pe-1"></i> Logout</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+        <!-- Navbar End -->
+
+        <div class="container">
+
+            <!-- First Row -->
+
+            <div class="row">
+                <div class="dashboard-boxes col-lg-6 col-sm-12 col-md-6">
+                    <div class="shadow dashboard-boxes-inner">
+                        <h5 class="text-primary fw-bold">Avg temp of field</h5>
+                        <div class="inner-box-inline">
+                            <div class="temp-left">
+                                <img class="box-images" src="../assets/temp 2.png" alt="">
+                                <div class="tempData">
+                                    <span id="main-city" class="text-primary fw-bolder city">Rawalpindi</span>
+                                    <span class="text-muted">humidity: <span id="main-humidity">0</span> </span>
+                                    <span class="text-muted">Area: <span id="main-area">0</span> </span>
+                                    <span id="main-date" class="badge text-muted rounded-pill mt-2">N/A</span>
+                                </div>
+                            </div>
+                            <div class="text-center ">
+                                <div class="temp-div">
+                                    <h4 class="text-danger m-0 fw-bolder"><span id="main-temp">0</span>° C</h4>
+                                    <span class="text-muted"><span id="main-temp-fer">0</span>° F</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-boxes col-lg-6 col-sm-12 col-md-6">
+                    <div class="shadow dashboard-boxes-inner">
+                        <h5 class="text-primary fw-bold">Soil Condition</h5>
+                        <div class="inner-box-inline">
+                            <div class="temp-left">
+                                <img class="box-images" id="soil-img" src="../assets/soil 2.png" alt="">
+                                <div class="tempData">
+                                    <span class="text-muted">N : <span id="main-N">0</span> </span>
+                                    <span class="text-muted">K : <span id="main-K">0</span> </span>
+                                    <span class="text-muted">P : <span id="main-phs">0</span> </span>
+                                    <span class="text-muted">Rain : <span id="main-rain">0</span> </span>
+                                    <span onclick="cropRefer()" class="link-primary crop-refer mt-2">Crop Refer <i
+                                            class="fa-solid fa-angle-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="ph-div">
+                                    <h4 class="text-danger m-0 fw-bolder">Ph <span id="main-ph">0</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Second Row -->
+
+            <div class="row mt-3">
+                <div class="dashboard-boxes col-lg-6 col-sm-12 col-md-6">
+                    <div class="shadow dashboard-boxes-inner-big">
+                        <div>
+                            <h5 class="text-primary fw-bold text-center p-3 m-0">Grid and Sensors</h5>
+                        </div>
+                        <div class="map-div">
+                            <div id="map">
+                            </div>
+                        </div>
+                        <div class="text-center p-3 map-link-div">
+                            <span id="drawButton" class="link-primary link-map">Edit grid area <i
+                                    class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-boxes col-lg-6 col-sm-12 col-md-6">
+                    <div class="shadow dashboard-boxes-inner-big">
+                        <div>
+                            <h5 class="text-primary fw-bold text-center p-3 m-0">Sensor reports</h5>
+                        </div>
+                        <div class="sensor-data-list-div p-3">
+                            <ul id="sensor-data-list" class="list-group">
+                                <li class="list-group-item sensor-data-list-li">
+                                    <span class="text-danger">No data available</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center p-3 map-link-div">
+                            <span class="link-primary link-map">View all reports <i
+                                    class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Row -->
+
+            <div class="row mt-3">
+
+                <div class="dashboard-boxes col-lg-6 col-sm-12 col-md-6">
+                    <div class="shadow dashboard-boxes-inner-big">
+                        <div>
+                            <h5 class="text-primary fw-bold text-center p-3 m-0">Drone reports</h5>
+                        </div>
+                        <div class="sensor-data-list-div p-3">
+                            <ul id="drone-data-list" class="list-group">
+                                <li class="list-group-item sensor-data-list-li">
+                                    <span class="text-danger">No data available</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center p-3 map-link-div">
+                            <span class="link-primary link-map">View all reports <i
+                                    class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-boxes col-lg-6 col-sm-12 col-md-6">
+                    <div class="shadow dashboard-boxes-inner-big">
+                        <div>
+                            <h5 class="text-primary fw-bold text-center p-3 m-0">Test Disease (Prototyping)</h5>
+
+                            <div class="crop-images-div">
+                                <div><img class="crop-images" src="../assets/img1.jpg" alt="" id="img1"></div>
+                                <div><img class="crop-images" src="../assets/img2.jpg" alt="" id="img2"></div>
+                                <div><img class="crop-images" src="../assets/img3.jpg" alt="" id="img3"></div>
+                                <div><img class="crop-images" src="../assets/img4.jpg" alt="" id="img4"></div>
+                                <div><img class="crop-images" src="../assets/img5.jpg" alt="" id="img5"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Model for sensor data li start -->
+                <div class="modal fade" id="sensorModal" tabindex="-1" aria-labelledby="sensorModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-light" id="sensorModalLabel">Sensor Data</h5>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light">PH: <span id="phValue"></span></li>
+                                    <li class="list-group-item bg-light">Temperature: <span
+                                            id="temperatureValue"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">Humidity: <span id="humidityValue"></span></li>
+                                    <li class="list-group-item bg-light">Nitrogen: <span id="nitrogenValue"></span></li>
+                                    <li class="list-group-item bg-light">Potassium: <span id="potassiumValue"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">Phosphorus: <span id="phosphorusValue"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">Rain: <span id="rainValue"></span></li>
+                                    <li class="list-group-item bg-light">Update Time: <span id="updateTimeValue"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Add the "Download PDF" button -->
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="downloadSensorPDFButton">Download
+                                    PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Model for sensor data li end -->
+
+
+                <!-- Model for drone data li start -->
+
+                <div class="modal fade" id="droneModal" tabindex="-1" aria-labelledby="droneModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-light" id="droneModalLabel">Drone Data</h5>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light">Health: <span id="healthValue"></span></li>
+                                    <li class="list-group-item bg-light">Disease: <span id="diseaseValue"></span></li>
+                                    <li class="list-group-item bg-light">Insect & animals: <span
+                                            id="insectAnimalsValue"></span></li>
+                                    <li class="list-group-item bg-light">Update Time: <span
+                                            id="updateTimeValueforDrone"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button id="downloadPDFButton" type="button" class="btn btn-primary">Download
+                                    PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- modal for Sensor imagary end -->
+
+
+
+                <!-- Crop Recommendation Model Start -->
+
+                <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-light" id="cropModalLabel">Recommended Crop</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p id="recommendedCropInfo"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Recommendation Model End -->
+
+
+
+                <!-- Modal for displaying disease data Start -->
+
+                <div class="modal fade" id="diseaseModal" tabindex="-1" aria-labelledby="diseaseModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-light" id="diseaseModalLabel">Disease Data</h5>
+                            </div>
+                            <div class="modal-body" id="diseaseModalBody">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for displaying disease data End -->
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <!-- Section Dashboard End -->
+
+    <!-- Footer Start -->
+
+    <section class="footer mt-5">
+
+        <div class="container">
+            <footer class="py-3 mt-4">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Ababeel Portal</a></li>
+                </ul>
+                <p class="text-center text-muted"><a class="nav-link text-muted" href="https://fambzzhh.com/"
+                        target="_blank">© 2023 FAMBZZHH, Pakistan</a></p>
+            </footer>
+        </div>
+
+    </section>
+
+    <!-- Footer End -->
+
+    <div class="preloader-container">
+        <div class="circle-preloader"><i class="fa-brands fa-phoenix-squadron text-danger"></i></div>
+    </div>
+
+
+    <!-- Js Files -->
+    <script src="../Js/firebase.js"></script>
+    <script src="../Js/user.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key="Your key"&libraries=places,geometry,drawing&callback=initMap"
+        async defer></script>
+
+</body>
+
+</html>
